@@ -29,7 +29,7 @@ function onError(status) {
 function onSuccess (data, status) {
     console.log(data);
     var answerTemplate = $("#answerTemplate").html();
-    var template = answerTemplate.format(data.writer.userId, data.formattedCreateDate, data.contents, data.question.id, data.id);
+    var template = answerTemplate.format(data.writer.userId, data.createDate, data.contents, data.question.id, data.id);
     $(".qna-comment-slipp-articles").prepend(template); //  변수 template 에 담긴 답변을 append
     $(".answer-write textarea").val("");    // textarea 에 남아있는 내용 지우기
 }

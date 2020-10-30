@@ -33,20 +33,20 @@ public class AnswerController {
     }
 
     // 답변 수정하기
-//    @PutMapping
-//    public  String update() {
-//        return "";
-//    }
+    @PutMapping
+    public  String update() {
+        return "";
+    }
 
     // 답변 삭제하기
-//    @DeleteMapping
-//    public String delete() {
-//        return "";
-//    }
+    @DeleteMapping
+    public String delete() {
+        return "";
+    }
 
     // 답변 갯수
-//    @GetMapping
-//    public String countAnswer() {
-//        return "";
-//    }
+    @GetMapping
+    public String countAnswer() {
+        return "";
+    }
 }

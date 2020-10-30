@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-    <title>Doubles QnA | Login</title>
+    <title>hoon QnA | Login</title>
 </head>
 <body>
 
@@ -16,7 +16,7 @@
     <div class="col-md-6 col-md-offset-3">
         <div class="panel panel-default content-main">
 
-            <c:if test="${errorMsg}">
+            <c:if test="${errorMsg != null}">
             	<div class="alert alert-danger" role="alert">${errorMsg}</div>
             </c:if>
             <form name="question" method="post" action="/users/login">

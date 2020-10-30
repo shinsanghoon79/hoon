@@ -1,11 +1,16 @@
-<!DOCTYPE html>
-<html lang="kr">
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<link href="/css/styles.css" rel="stylesheet">
+ <!DOCTYPE html> 
+ <html lang="ko"> 
 <head>
-    <title>DoubleS QnA | Member List</title>
-    {{> /include/header}}
+    <title>hoon QnA | Member List</title>
 </head>
 <body>
-{{> include/navigation}}
 <div class="container" id="main">
     <div class="col-md-10 col-md-offset-1">
         <div class="panel panel-default">
@@ -20,21 +25,21 @@
                 </tr>
                 </thead>
                 <tbody>
-                {{#users}}
+                  <c:forEach var="item" items="${users}" varStatus="idx"> 
                 <tr>
-                    <th scope="row">{{id}}</th>
-                    <td>{{userId}}</td>
-                    <td>{{name}}</td>
-                    <td>{{email}}</td>
-                    <td><a href="/users/{{id}}/form" class="btn btn-success" role="button">수정</a></td>
+                    <th scope="row">${item.id}</th>
+                    <td>${item.userId}</td>
+                    <td>${item.name}</td>
+                    <td>${item.email}</td>
+                    <td><a href="/users/${item.id}/form" class="btn btn-success" role="button">수정</a></td>
                 </tr>
-                {{/users}}
+
+                 </c:forEach> 
                 </tbody>
             </table>
         </div>
     </div>
 </div>
 
-{{> /include/footer}}
 </body>
 </html>

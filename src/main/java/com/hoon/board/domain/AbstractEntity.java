@@ -1,6 +1,9 @@
 package com.hoon.board.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import lombok.Getter;
+
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -12,6 +15,7 @@ import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+@Getter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public class AbstractEntity {
@@ -32,12 +36,12 @@ public class AbstractEntity {
     private LocalDateTime modifiedDate;
 
     // 생성시간 포맷변경 메서드
-    public String getFormattedCreateDate() {
+    public String getCreateDate() {
         return getFormattedDate(createDate, "yyyy.MM.dd HH:mm:ss");
     }
 
     // 수정시간 포맷변경 메서드
-    public String getFormattedModifiedDate() {
+    public String getModifiedDate() {
         return getFormattedDate(modifiedDate, "yyyy.MM.dd HH:mm:ss");
     }
 

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -42,13 +43,18 @@ public class QuestionController {
         User sessionUser = HttpSessionUtils.getUserFromSession(session);
 
         Question newQuestion = new Question(sessionUser, title, contents);
+
         questionRepository.save(newQuestion);
         return "redirect:/";
     }
 
     // 질문 상세 보기
     @GetMapping("/{id}")
-    public String show(@PathVariable Long id, Model model) {
+    public String show(@PathVariable Long id, Model model, HttpServletRequest request) {
+    	String messageCode = request.getParameter("messageCode");
+    	if(messageCode != null && messageCode.equals("1")) {
+    		 model.addAttribute("errorMsg", "자신이 쓴 글만 수정, 삭제가 가능합니다.");
+    	}
         model.addAttribute("question", questionRepository.findById(id).get());
         model.addAttribute("answers", answerRepository.findAllByQuestionId(id));
         return "/qna/show";
@@ -88,11 +94,17 @@ public class QuestionController {
         // 현재 질문 조회
         Question question = questionRepository.findById(id).get();
         Result result = valid(session, question);
-        if ( !result.isValid() ) {
-            // 에러 메시지 저장
-            model.addAttribute("errorMsg", result.getErrorMsg());
-            // 로그인 페이지로 이동
-            return "/user/login";
+	        if ( !result.isValid() ) {
+	        	if("로그인이 필요합니다.".equals(result.getErrorMsg())) {
+	       		 // 에러 메시지 저장
+	               model.addAttribute("errorMsg", result.getErrorMsg());
+	       		return "/user/login";
+	       	}else {
+	       		 // 에러 메시지 저장
+	            model.addAttribute("errorMsg", result.getErrorMsg());
+	       		model.addAttribute("question", question);
+	       	    return "/qna/show";
+	       	}
         }
         // 질문 수정화면으로 이동
         model.addAttribute("question", question);
@@ -106,10 +118,16 @@ public class QuestionController {
         Question question = questionRepository.findById(id).get();
         Result result = valid(session, question);
         if ( !result.isValid() ) {
-            // 에러 메시지 저장
-            model.addAttribute("errorMsg", result.getErrorMsg());
-            // 로그인 페이지로 이동
-            return "/user/login";
+        	if("로그인이 필요합니다.".equals(result.getErrorMsg())) {
+	       		 // 에러 메시지 저장
+	               model.addAttribute("errorMsg", result.getErrorMsg());
+	       		return "/user/login";
+	       	}else {
+	       		 // 에러 메시지 저장
+	            model.addAttribute("errorMsg", result.getErrorMsg());
+	       		model.addAttribute("question", question);
+	       	    return "/qna/show";
+	       	}
         }
         // 업데이트 처리
         question.update(title, contents);
@@ -118,16 +136,24 @@ public class QuestionController {
     }
 
     // 질문 삭제 처리
-    @DeleteMapping("/{id}")
+    @DeleteMapping("{id}")
     public String delete(@PathVariable Long id, HttpSession session, Model model) {
         // 현재 질문 조회
         Question question = questionRepository.findById(id).get();
         Result result = valid(session, question);
         if ( !result.isValid() ) {
-            // 에러 메시지 저장
-            model.addAttribute("errorMsg", result.getErrorMsg());
-            // 로그인 페이지로 이동
-            return "/user/login";
+        	if("로그인이 필요합니다.".equals(result.getErrorMsg())) {
+        		
+        		// 에러 메시지 저장
+	               model.addAttribute("errorMsg", result.getErrorMsg());
+	               
+	               return "redirect:/users/loginForm";
+	       	}else {
+	       		 // 에러 메시지 저장
+	            model.addAttribute("errorMsg", result.getErrorMsg());
+	       		model.addAttribute("question", question);
+	       		return String.format("redirect:/questions/%d?messageCode=1", id);
+	       	}
         }
         // 삭제 처리
         questionRepository.deleteById(id);

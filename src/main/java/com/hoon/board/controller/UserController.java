@@ -91,7 +91,7 @@ public class UserController {
         User sessionUser = HttpSessionUtils.getUserFromSession(session);
         // session 에 저장된 id 값과 조회하려는 id값 비교
         if ( !sessionUser.matchId(id) ) {
-            throw new IllegalStateException("Can't modify other's information");
+        	 return "redirect:/users/list";
         }
 
         // session 에 저장된 자신의 정보만 조회할 수 있도록 처리

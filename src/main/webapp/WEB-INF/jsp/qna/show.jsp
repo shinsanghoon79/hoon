@@ -8,15 +8,18 @@
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-    <title>Doubles QnA | QnA Post</title>
+    <title>hoon QnA | QnA Post</title>
 </head>
 <body>
 <div class="container" id="main">
     <div class="col-md-12 col-sm-12 col-lg-12">
 
         <div class="panel panel-default">
+        <c:if test="${errorMsg != null}">
+         	<div class="alert alert-danger" role="alert">${errorMsg}</div>
+         </c:if>
             <header class="qna-header">
-                <h2 class="qna-title">${question.title}</h2>
+                <h2 class="qna-title">${errorMsg}${question.title}</h2>
             </header>
             <div class="content-main">
                 <article class="article">
@@ -27,11 +30,12 @@
                         <div class="article-header-text">
                             <a href="/users/92/kimmunsu" class="article-author-name">${question.writer.userId}</a>
                             <a href="/questions/413" class="article-header-time" title="퍼머링크">
-                                ${question.formattedCreateDate}
+                                ${question.createDate}
                                 <i class="icon-link"></i>
                             </a>
                         </div>
                     </div>
+                    
                     <div class="article-doc">
                        ${question.contents}
                     </div>
@@ -58,7 +62,7 @@
                         <p class="qna-comment-count"><strong>${question.countOfAnswer}</strong>개의 의견</p>
                         <div class="qna-comment-slipp-articles">
        
-  <c:forEach var="item" items="${answers}" varStatus="idx"> 
+  				<c:forEach var="item" items="${answers}" varStatus="idx"> 
                             <article class="article" id="answer-1405">
                                 <div class="article-header">
                                     <div class="article-header-thumb">
@@ -67,7 +71,7 @@
                                     <div class="article-header-text">
                                         <a href="/users/1/자바지기" class="article-author-name">${item.writer.userId}</a>
                                         <a href="#answer-1434" class="article-header-time" title="퍼머링크">
-                                            ${item.formattedCreateDate}
+                                            ${itemcreateDate}
                                         </a>
                                     </div>
                                 </div>
@@ -85,7 +89,7 @@
                                     </ul>
                                 </div>
                             </article>
- </c:forEach> 
+ 					</c:forEach> 
                             <form class="answer-write" method="post" action="/api/questions/${question.id}/answers">
                                 <div class="form-group" style="padding:14px;">
                                     <textarea class="form-control" placeholder="Update your status" name="contents"></textarea>

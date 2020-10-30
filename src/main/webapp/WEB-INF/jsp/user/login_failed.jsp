@@ -1,11 +1,17 @@
-<!DOCTYPE html>
-<html lang="kr">
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<link href="/css/styles.css" rel="stylesheet">
+ <!DOCTYPE html> 
+ <html lang="ko"> 
 <head>
-    <title>Doubles QnA | Login Fail</title>
-    {{> /include/header}}
+    <title>hoon QnA | Login Fail</title>
+
 </head>
 <body>
-{{> /include/navigation}}
 
 <div class="container" id="main">
     <div class="col-md-6 col-md-offset-3">
@@ -27,6 +33,5 @@
     </div>
 </div>
 
-{{> /include/footer}}
 </body>
 </html>

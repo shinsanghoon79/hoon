@@ -2,11 +2,16 @@ package com.hoon.board.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+@Getter
+@NoArgsConstructor
 @Entity
 public class Question extends AbstractEntity {
 
@@ -53,7 +58,7 @@ public class Question extends AbstractEntity {
     public boolean isSameWriter(User loginUser) {
         return this.writer.equals(loginUser);
     }
-
+    
     // update 메서드
     public void update(String title, String contents) {
         this.title = title;
