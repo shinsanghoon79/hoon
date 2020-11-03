@@ -14,6 +14,9 @@
 <div class="container" id="main">
     <div class="col-md-10 col-md-offset-1">
         <div class="panel panel-default">
+        <c:if test="${errorMsg != null}">
+         	<div class="alert alert-danger" role="alert">${errorMsg}</div>
+         </c:if>
             <table class="table table-hover">
                 <thead>
                 <tr>

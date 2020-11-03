@@ -43,6 +43,11 @@ public class Answer extends AbstractEntity{
     public boolean isSameWriter(User loginUser) {
         return loginUser.equals(this.writer);
     }
+    
+    // update 메서드
+    public void update(String contents) {
+        this.contents = contents;
+    }
 
     @Override
     public String toString() {

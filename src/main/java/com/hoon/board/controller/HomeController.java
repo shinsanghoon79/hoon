@@ -39,9 +39,9 @@ public class HomeController {
 
     @Autowired
     private QuestionRepository questionRepository;
-
+//루트 요청시 홈 메서드를 들어온다
   //  @GetMapping("/")
-    @GetMapping(path = {"/", "/{no}"})
+    @GetMapping(path = {"/"})
     public String home(@RequestParam(value = "page",defaultValue = "0") int page,
     				   @RequestParam(value = "size",defaultValue = "10") int size,
     				   @RequestParam(value = "sort",defaultValue = "DESC") String sort,
@@ -50,18 +50,18 @@ public class HomeController {
     				   @RequestParam(value = "name",defaultValue = "") String name,
     				   @RequestParam(value = "contents",defaultValue = "") String contents,
     				   Model model, HttpSession httpSession, HttpServletRequest request) {
-    	//이름 가져오기 테스트
+    	//이름 으로 정보 가져오기
     	User u = questionRepository.findByUserName("상훈1");
+    	//소트해서 리스트 가져오기
     	List<User> uL = questionRepository.findByUserList(Sort.by("id").descending());
     	Page<Question> q = null;
-    	List<Question> sq = null;
-    	//카운트 가져오기 테스트
+    	//카운트 가져오기
     	long count = questionRepository.countByUserName("상훈1");
-    	//검색 페이지 테스트
     	
     	
     	
     	
+    	//검색 타이틀 내용 이름으로 검색가능하고 페이징처리 소트 가능
     	if("ASC".equals(sort)) {
     		q = questionRepository.findBySearchPage(title,contents,name,PageRequest.of(page, size, Sort.by(col).ascending()));   		  
     	}else {
@@ -70,6 +70,7 @@ public class HomeController {
     	
     	String userName = "Guest";
     	String islogin = "FALSE";
+    	//파인드올로  페이징처리 소트 가능
     	if("ASC".equals(sort)) {
     		q = questionRepository.findAll(PageRequest.of(page, size, Sort.by(col).ascending()));    		  
     	}else {

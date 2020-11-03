@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 
@@ -36,7 +37,11 @@ public class UserController {
 
     // 회원 리스트
     @GetMapping("/list")
-    public String list(Model model) {
+    public String list(Model model, HttpServletRequest request) {
+    	String messageCode = request.getParameter("messageCode");
+    	if(messageCode != null && messageCode.equals("1")) {
+    		 model.addAttribute("errorMsg", "자신이 쓴 글만 수정, 삭제가 가능합니다.");
+    	}
         model.addAttribute("users", userRepository.findAll());
         return "/user/list";
     }
@@ -91,7 +96,7 @@ public class UserController {
         User sessionUser = HttpSessionUtils.getUserFromSession(session);
         // session 에 저장된 id 값과 조회하려는 id값 비교
         if ( !sessionUser.matchId(id) ) {
-        	 return "redirect:/users/list";
+        	 return "redirect:/users/list?messageCode=1";
         }
 
         // session 에 저장된 자신의 정보만 조회할 수 있도록 처리

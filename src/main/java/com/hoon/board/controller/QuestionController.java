@@ -32,7 +32,7 @@ public class QuestionController {
     private QuestionRepository questionRepository;
     @Autowired
     private AnswerRepository answerRepository;
-
+//get방식으로 데이터 가져오기 샘플
     @GetMapping("/getTest")
     public ResponseEntity<Map<String, Object>> getUser(@RequestParam("name") String name){
     	Map<String, Object> result = new HashMap<>();
@@ -41,11 +41,9 @@ public class QuestionController {
          result.put("message", "OK");
          result.put("messageCode", "200");
          result.put("data", u);
-    		return ResponseEntity.ok(result);
-
-        
+    		return ResponseEntity.ok(result);  
     }
-    
+  //post방식으로 데이터 가져오기 샘플   
     @PostMapping("/postTest")
     public ResponseEntity<Map<String, Object>> getUserPost(@RequestParam("name") String name){
     	Map<String, Object> result = new HashMap<>();
@@ -58,7 +56,7 @@ public class QuestionController {
 
         
     }
-    
+    //get post 방식 둘다로 데이터 가져오기 샘플       
     @RequestMapping(value="/both" , method = {RequestMethod.GET, RequestMethod.POST})
     public ResponseEntity<Map<String, Object>> getUserBoth(@RequestParam("name") String name){
     	Map<String, Object> result = new HashMap<>();
