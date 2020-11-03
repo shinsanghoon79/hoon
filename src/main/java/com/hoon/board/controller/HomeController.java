@@ -1,11 +1,14 @@
 package com.hoon.board.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hoon.board.domain.Question;
 import com.hoon.board.domain.QuestionRepository;
 import com.hoon.board.domain.Result;
 import com.hoon.board.domain.User;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -16,14 +19,21 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
+import org.springframework.data.jpa.repository.*;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 @Controller
 public class HomeController {
 
@@ -35,10 +45,29 @@ public class HomeController {
     public String home(@RequestParam(value = "page",defaultValue = "0") int page,
     				   @RequestParam(value = "size",defaultValue = "10") int size,
     				   @RequestParam(value = "sort",defaultValue = "DESC") String sort,
-    				   @RequestParam(value = "col",defaultValue = "createDate") String col,
+    				   @RequestParam(value = "col",defaultValue = "id") String col,
+    				   @RequestParam(value = "title",defaultValue = "") String title,
+    				   @RequestParam(value = "name",defaultValue = "") String name,
+    				   @RequestParam(value = "contents",defaultValue = "") String contents,
     				   Model model, HttpSession httpSession, HttpServletRequest request) {
-
+    	//이름 가져오기 테스트
+    	User u = questionRepository.findByUserName("상훈1");
+    	List<User> uL = questionRepository.findByUserList(Sort.by("id").descending());
     	Page<Question> q = null;
+    	List<Question> sq = null;
+    	//카운트 가져오기 테스트
+    	long count = questionRepository.countByUserName("상훈1");
+    	//검색 페이지 테스트
+    	
+    	
+    	
+    	
+    	if("ASC".equals(sort)) {
+    		q = questionRepository.findBySearchPage(title,contents,name,PageRequest.of(page, size, Sort.by(col).ascending()));   		  
+    	}else {
+    		q = questionRepository.findBySearchPage(title,contents,name,PageRequest.of(page, size, Sort.by(col).descending()));  
+    	}
+    	
     	String userName = "Guest";
     	String islogin = "FALSE";
     	if("ASC".equals(sort)) {
@@ -46,6 +75,8 @@ public class HomeController {
     	}else {
     		q = questionRepository.findAll(PageRequest.of(page, size, Sort.by(col).descending()));   
     	}
+    	
+
     	//로그인시 세션에서 이름가져오기
     	if (HttpSessionUtils.isLoginUser(httpSession)) {
     		 User loginUser = HttpSessionUtils.getUserFromSession(httpSession);
@@ -75,5 +106,8 @@ public class HomeController {
 
         return "index";
     }
-
+    
+    
+   
+    
 }

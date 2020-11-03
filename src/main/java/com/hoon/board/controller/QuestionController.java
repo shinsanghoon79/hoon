@@ -1,14 +1,25 @@
 package com.hoon.board.controller;
 
+import com.fasterxml.jackson.databind.JsonSerializer;
 import com.hoon.board.domain.AnswerRepository;
 import com.hoon.board.domain.Question;
 import com.hoon.board.domain.QuestionRepository;
 import com.hoon.board.domain.Result;
 import com.hoon.board.domain.User;
+
+import jdk.jshell.Snippet.Status;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -21,6 +32,45 @@ public class QuestionController {
     private QuestionRepository questionRepository;
     @Autowired
     private AnswerRepository answerRepository;
+
+    @GetMapping("/getTest")
+    public ResponseEntity<Map<String, Object>> getUser(@RequestParam("name") String name){
+    	Map<String, Object> result = new HashMap<>();
+    	User u = questionRepository.findByUserName(name);
+    	
+         result.put("message", "OK");
+         result.put("messageCode", "200");
+         result.put("data", u);
+    		return ResponseEntity.ok(result);
+
+        
+    }
+    
+    @PostMapping("/postTest")
+    public ResponseEntity<Map<String, Object>> getUserPost(@RequestParam("name") String name){
+    	Map<String, Object> result = new HashMap<>();
+    	User u = questionRepository.findByUserName(name);
+    	
+         result.put("message", "OK");
+         result.put("messageCode", "200");
+         result.put("data", u);
+    		return ResponseEntity.ok(result);
+
+        
+    }
+    
+    @RequestMapping(value="/both" , method = {RequestMethod.GET, RequestMethod.POST})
+    public ResponseEntity<Map<String, Object>> getUserBoth(@RequestParam("name") String name){
+    	Map<String, Object> result = new HashMap<>();
+    	User u = questionRepository.findByUserName(name);
+    	
+         result.put("message", "OK");
+         result.put("messageCode", "200");
+         result.put("data", u);
+    		return ResponseEntity.ok(result);
+     
+    }
+    
 
     // 질문 작성 화면
     @GetMapping("/form")
@@ -94,8 +144,8 @@ public class QuestionController {
         // 현재 질문 조회
         Question question = questionRepository.findById(id).get();
         Result result = valid(session, question);
-	        if ( !result.isValid() ) {
-	        	if("로그인이 필요합니다.".equals(result.getErrorMsg())) {
+	  if ( !result.isValid() ) {
+	       if("로그인이 필요합니다.".equals(result.getErrorMsg())) {
 	       		 // 에러 메시지 저장
 	               model.addAttribute("errorMsg", result.getErrorMsg());
 	       		return "/user/login";
