@@ -58,6 +58,11 @@ public class HomeController {
     	//카운트 가져오기
     	long count = questionRepository.countByUserName("상훈1");
     	
+    	//블리언값가져오기
+    	String b = questionRepository.booleanUserName("상훈1");
+    	
+    	
+    	
     	
     	
     	

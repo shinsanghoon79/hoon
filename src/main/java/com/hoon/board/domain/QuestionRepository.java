@@ -22,6 +22,9 @@ public interface QuestionRepository extends JpaRepository<Question, Long>{
 	@Query("select count(*) from User u where u.name = :name")
 	long countByUserName(@Param("name") String name);
 	
+	@Query(value="select if(count(*) > 0, 'TRUE', 'FALSE') AS result from user  where name = :name", nativeQuery = true)
+	String booleanUserName(@Param("name") String name);
+	
 	public static Specification<Question> withName(String name) {
         return (root, query, builder) -> builder.like(root.get("name"), "%" + name + "%");
    }
