@@ -21,7 +21,18 @@ public class User extends AbstractEntity {
     @JsonProperty
     private String email;       // 회원 이메일
     
-    public String getUserId() {
+    @JsonProperty
+    private String fileName;       // 회원 이메일
+    
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public String getUserId() {
         return userId;
     }
     

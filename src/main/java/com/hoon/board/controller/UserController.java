@@ -8,6 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -30,7 +34,13 @@ public class UserController {
 
     // 회원가입 처리
     @PostMapping("/create")
-    public String create(User user) {
+    public String create(@RequestParam(value="file",required=false) MultipartFile file,HttpServletRequest request,User user) throws IllegalStateException, IOException {
+    	 String PATH = request.getSession().getServletContext().getRealPath("/") + "upload/";
+         if (!file.getOriginalFilename().isEmpty()) {
+             file.transferTo(new File(PATH + file.getOriginalFilename()));
+             user.setFileName("/upload/"+file.getOriginalFilename());
+         }
+         
         userRepository.save(user);
         return "redirect:/users/list";
     }

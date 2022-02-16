@@ -11,7 +11,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Getter
-@NoArgsConstructor
 @Entity
 public class Question extends AbstractEntity {
 

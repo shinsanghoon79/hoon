@@ -21,6 +21,7 @@
                 <thead>
                 <tr>
                     <th>번호</th>
+                    <th>사진</th>
                     <th>사용자 아이디</th>
                     <th>이름</th>
                     <th>이메일</th>
@@ -31,6 +32,12 @@
                   <c:forEach var="item" items="${users}" varStatus="idx"> 
                 <tr>
                     <th scope="row">${item.id}</th>
+                    
+                    <td>
+                    <c:if test="${item.fileName != null}"> 
+                    	<img src="${item.fileName}" width="100px;"/>
+                    </c:if>
+                    </td>
                     <td>${item.userId}</td>
                     <td>${item.name}</td>
                     <td>${item.email}</td>
